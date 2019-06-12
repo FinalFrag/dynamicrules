@@ -1,5 +1,7 @@
 const fs = require("fs");
 const chokidar = require("chokidar");
+const processor = require("./app/processor");
+const assembler = require("./app/assembler");
 
 const watcher = chokidar.watch("input", {
     ignored: /(^|[\/\\])\../,
@@ -41,17 +43,6 @@ function compileAll() {
 }
 
 function compile(filename) {
-    var content = [];
-    content.push("//////////////////////////////////////////////////");
-    content.push("//           THIS IS A GENERATED FILE           //");
-    content.push("//       MAKE CHANGES IN THE INPUT FOLDER       //");
-    content.push("//        CHANGES MADE HERE WILL BE LOST        //");
-    content.push("//////////////////////////////////////////////////");
-    content.push("");
-    content.push(fs.readFileSync("input/_.rules", "utf-8"));
-    content.push("//////////////////////////////////////////////////");
-    content.push("");
-    content.push(fs.readFileSync("input/" + filename, "utf-8"));
-
-    fs.writeFileSync("output/" + filename, content.join("\n"), "utf-8");
+    const processingResult = processor.process("input/" + filename, "output/" + filename + ".processing");
+    assembler.assemble("output/" + filename, processingResult);
 }
