@@ -43,6 +43,7 @@ function compileAll() {
 }
 
 function compile(filename) {
-    const processingResult = processor.process("input/" + filename, "output/" + filename + ".processing");
-    assembler.assemble("output/" + filename, processingResult);
+    const processedIncludeFile = processor.process("input/_.rules", "output/_.rules.processing");
+    const processedFileResult = processor.process("input/" + filename, "output/" + filename + ".processing");
+    assembler.assemble("output/" + filename, processedIncludeFile, processedFileResult);
 }
