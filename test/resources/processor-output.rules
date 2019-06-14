@@ -1,0 +1,29 @@
+Command
+
+Output
+test
+
+Test no spaces
+hello 1
+hello 2
+hello 3
+
+Test 1 space
+hello 1
+hello 2
+hello 3
+
+Test multiple spaces
+hello 1
+hello 2
+hello 3
+
+Test indented method 1
+hello 1
+hello 2
+hello 3
+
+Test indented method 2
+    hello 1
+    hello 2
+    hello 3

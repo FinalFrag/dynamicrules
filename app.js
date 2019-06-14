@@ -43,7 +43,13 @@ function compileAll() {
 }
 
 function compile(filename) {
-    const processedIncludeFile = processor.process("input/_.rules", "output/_.rules.processing");
-    const processedFileResult = processor.process("input/" + filename, "output/" + filename + ".processing");
+    // Process _.rules
+    const includeFileContents = fs.readFileSync("input/_.rules", "UTF-8").split("\n");
+    const processedIncludeFile = processor.process(includeFileContents, "output/_.rules.processing");
+
+    // Process filename
+    const fileContents = fs.readFileSync("input/" + filename, "UTF-8").split("\n");
+    const processedFileResult = processor.process(fileContents, "output/" + filename + ".processing");
+
     assembler.assemble("output/" + filename, processedIncludeFile, processedFileResult);
 }

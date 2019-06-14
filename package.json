@@ -6,11 +6,16 @@
   "dependencies": {
     "chokidar": "^3.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "*",
+    "chai-files": "^1.4.0",
+    "mocha": "*"
+  },
   "scripts": {
-    "build": "docker build . -t finalfrag/dynamicrules",
     "start": "node app.js",
-    "test": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/dynamicrules"
+    "test": "mocha test/*",
+    "docker-build": "docker build . -t finalfrag/dynamicrules",
+    "docker-run": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/dynamicrules"
   },
   "author": "",
   "license": "ISC"
