@@ -1,21 +1,21 @@
 {
   "name": "dynamicrules",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha",
   "description": "",
   "main": "app.js",
   "dependencies": {
     "chokidar": "^3.0.1"
   },
   "devDependencies": {
-    "chai": "*",
+    "chai": "^4.2.0",
     "chai-files": "^1.4.0",
-    "mocha": "*"
+    "mocha": "^6.1.4"
   },
   "scripts": {
     "start": "node app.js",
     "test": "mocha test/*",
-    "docker-build": "docker build . -t finalfrag/dynamicrules",
-    "docker-run": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/dynamicrules"
+    "docker-build": "docker build . -t finalfrag/dynamicrules:$npm_package_version",
+    "docker-run": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/dynamicrules:$npm_package_version"
   },
   "author": "",
   "license": "ISC"
