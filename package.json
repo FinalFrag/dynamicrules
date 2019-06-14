@@ -12,11 +12,10 @@
     "mocha": "^6.1.4"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node $npm_package_main",
     "test": "mocha test/*",
-    "docker-build": "docker build . -t finalfrag/dynamicrules:$npm_package_version",
-    "docker-run": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/dynamicrules:$npm_package_version"
-  },
-  "author": "",
-  "license": "ISC"
+    "docker-build": "docker build . -t finalfrag/$npm_package_name:$npm_package_version",
+    "docker-run": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/$npm_package_name:$npm_package_version",
+    "docker-push": "docker push finalfrag/$npm_package_name:$npm_package_version"
+  }
 }
