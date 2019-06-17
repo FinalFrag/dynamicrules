@@ -1,0 +1,30 @@
+Command
+> true
+
+Output
+! test
+
+Test no spaces
+>for (var i = 1; i <= 3; i++) {
+!hello ${i}
+>}
+
+Test 1 space
+> for (var i = 1; i <= 3; i++) {
+! hello ${i}
+> }
+
+Test multiple spaces
+>         for (var i = 1; i <= 3; i++) {
+!         hello ${i}
+>         }
+
+Test indented method 1
+> for (var i = 1; i <= 3; i++) {
+!     hello ${i}
+> }
+
+Test indented method 2
+> for (var i = 1; i <= 3; i++) {
+    ! hello ${i}
+> }

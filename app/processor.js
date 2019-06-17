@@ -1,56 +1,88 @@
 const fs = require("fs");
 
-var _tempFile;
-const _commandPrefix = /^(\s*)\/\/>(.*)/;
-const _outputPrefix = /^(\s*)\/\/\!(.*)/;
+module.exports = (config) => {
+    let _tempFile;
 
-function processLine(line) {
-    // Get rid of nasty windows carriage returns
-    line = line.replace(/\r/g, "");
+    function processLine(line) {
+        // Get rid of nasty windows carriage returns
+        let output = line.replace(/\r/g, "");
 
-    if (line.match(_commandPrefix)) {
-        // Process as JS
-        // Remove "//>" and extra spaces
-        line = line.trim().substring(3).trim();
-    } else if (line.match(_outputPrefix)) {
-        // Process as JS output
-        const whitespaces = _outputPrefix.exec(line)[1];
-        
-        // Remove //! and extra spaces
-        line = line.trim().substring(3).trim();
+        if (isCommand(output)) {
+            output = getCommand(output);
+        } else if (isOutput(output)) {
+            output = getOutput(output);
+        } else {
+            output = getCopy(output);
+        }
 
-        // Treat as string template (allows use of JS variables)
-        line = "write(`" + whitespaces + line + "`)";
-    } else {
-        // Process as regular text
-        // Escape double-quotes
-        line = line.replace(/\"/g, "\\\"");
-
-        // Treat as literal output
-        line = "write(\"" + line + "\")";
+        return output;
     }
 
-    return line;
-}
+    function isCommand(line) {
+        return line.trim().startsWith(config.commandString) || line.trim().endsWith(config.commandString);
+    }
 
-function write(data) {
-    fs.appendFileSync(_tempFile, data + "\n", "UTF-8");
-}
+    function getCommand(line) {
+        if (line.trim().startsWith(config.commandString)) {
+            return line.trim().substring(config.commandString.length).trim();
+        }
 
-exports.process = function (input, tempFile) {
-    _tempFile = tempFile;
+        return line.trim().substring(0, line.length - config.commandString.length);
+    }
 
-    // Process
-    const toBeEvaled = [];
-    input.forEach(line => toBeEvaled.push(processLine(line)));
+    function isOutput(line) {
+        return line.trim().startsWith(config.outputString) || line.trim().endsWith(config.outputString);
+    }
 
-    // Write to _tempFile
-    fs.writeFileSync(_tempFile, "", "UTF-8");
-    eval(toBeEvaled.join("\n"));
+    function getOutput(line) {
+        const whitespaces = /^(\s*)(.*)/.exec(line)[1];
+        let output = /^(\s*)(.*)/.exec(line)[2];
 
-    // Get _tempFile contents and delete it
-    const output = fs.readFileSync(_tempFile, "UTF-8");
-    fs.unlinkSync(_tempFile);
+        if (line.trim().startsWith(config.outputString)) {
+            // Remove //! and extra spaces
+            output = output.substring(config.outputString.length).trim();
+        } else {
+            output = output.substring(0, output.length - config.outputString.length).trim();
+        }
 
-    return output;
+        // Treat as string template (allows use of JS variables)
+        output = "write(`" + whitespaces + output + "`)";
+
+        return output;
+    }
+
+    function getCopy(line) {
+        // Escape double-quotes
+        let output = line.replace(/"/g, "\\\"");
+
+        // Treat as literal output
+        output = "write(\"" + output + "\")";
+
+        return output;
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    function write(data) {
+        fs.appendFileSync(_tempFile, data + "\n", "UTF-8");
+    }
+
+    return {
+        process: (input, tempFile) => {
+            _tempFile = tempFile;
+
+            // Process
+            const toBeEvaled = [];
+            input.forEach(line => toBeEvaled.push(processLine(line)));
+
+            // Write to _tempFile
+            fs.writeFileSync(_tempFile, "", "UTF-8");
+            eval(toBeEvaled.join("\n")); // eslint-disable-line no-eval
+
+            // Get _tempFile contents and delete it
+            const output = fs.readFileSync(_tempFile, "UTF-8");
+            fs.unlinkSync(_tempFile);
+
+            return output;
+        }
+    };
 };

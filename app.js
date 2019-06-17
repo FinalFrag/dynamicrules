@@ -4,7 +4,7 @@ const processor = require("./app/processor");
 const assembler = require("./app/assembler");
 
 const watcher = chokidar.watch("input", {
-    ignored: /(^|[\/\\])\../,
+    ignored: /(^|[/\\])\../,
     usePolling: true,
     ignoreInitial: true
 });
@@ -18,15 +18,12 @@ watcher.on("all", (event, path) => {
         // Include file
         console.log("_.rules changed, recompiling all files");
         compileAll();
-    } else {
-        // Regular file
-        if (event === "add" || event === "change") {
-            console.log("Compiling " + filename);
-            compile(filename);
-        } else if (event === "unlink") {
-            console.log("Removing " + filename);
-            fs.unlinkSync("output/" + filename);
-        }
+    } else if (event === "add" || event === "change") {
+        console.log("Compiling " + filename);
+        compile(filename);
+    } else if (event === "unlink") {
+        console.log("Removing " + filename);
+        fs.unlinkSync("output/" + filename);
     }
 });
 
@@ -34,11 +31,7 @@ function compileAll() {
     fs.readdir("input", (err, filenames) => {
         if (err) throw err;
 
-        for (const filename of filenames) {
-            if (!filename.startsWith("_")) {
-                compile(filename);
-            }
-        }
+        filenames.filter(it => it.startsWith("_")).forEach(it => compile(it));
     });
 }
 

@@ -2,3 +2,10 @@ node_modules
 npm-debug.log
 input
 output
+.eslintrc.js
+.vscode
+test
+.git
+.gitignore
+.dockerignore
+Dockerfile

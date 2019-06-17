@@ -1,21 +1,27 @@
 {
-  "name": "dynamicrules",
-  "version": "2.0.0-alpha",
-  "description": "",
-  "main": "app.js",
-  "dependencies": {
-    "chokidar": "^3.0.1"
-  },
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "chai-files": "^1.4.0",
-    "mocha": "^6.1.4"
-  },
-  "scripts": {
-    "start": "node $npm_package_main",
-    "test": "mocha test/*",
-    "docker-build": "docker build . -t finalfrag/$npm_package_name:$npm_package_version",
-    "docker-run": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/$npm_package_name:$npm_package_version",
-    "docker-push": "docker push finalfrag/$npm_package_name:$npm_package_version"
-  }
+    "name": "dynamicrules",
+    "version": "2.0.0-alpha",
+    "description": "OpenHAB dynamic rules",
+    "repository": "github:finalfrag/dynamicrules",
+    "license": "MIT",
+    "main": "app.js",
+    "dependencies": {
+        "chokidar": "^3.0.1"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "chai-files": "^1.4.0",
+        "eslint": "^5.16.0",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-plugin-import": "^2.17.3",
+        "mocha": "^6.1.4"
+    },
+    "scripts": {
+        "start": "node $npm_package_main",
+        "test": "mocha test/*",
+        "lint": "eslint ./app.js ./app ./test",
+        "docker-build": "docker build . -t finalfrag/$npm_package_name:$npm_package_version",
+        "docker-run": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/$npm_package_name:$npm_package_version",
+        "docker-push": "docker push finalfrag/$npm_package_name:$npm_package_version"
+    }
 }
