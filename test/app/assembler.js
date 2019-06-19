@@ -3,7 +3,7 @@
 const chai = require("chai");
 const chaiFiles = require("chai-files");
 const config = require("../../app/config");
-const assemblerFactory = require("../../app/assembler")(config);
+const assemblerFactory = require("../../app/assembler");
 
 chai.should();
 chai.use(chaiFiles);

@@ -3,7 +3,7 @@
 require("chai").should();
 const fs = require("fs");
 const config = require("../../app/config");
-const processorFactory = require("../../app/processor")(config);
+const processorFactory = require("../../app/processor");
 
 function runTest(processor, inputFile, outputFile) {
     const input = fs.readFileSync("./test/resources/" + inputFile, "UTF-8").split("\n");

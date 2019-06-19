@@ -1,7 +1,8 @@
 const fs = require("fs");
 const chokidar = require("chokidar");
-const processor = require("./app/processor");
-const assembler = require("./app/assembler");
+const config = require("./app/config");
+const processor = require("./app/processor")(config);
+const assembler = require("./app/assembler")(config);
 
 const watcher = chokidar.watch("input", {
     ignored: /(^|[/\\])\../,
@@ -31,7 +32,7 @@ function compileAll() {
     fs.readdir("input", (err, filenames) => {
         if (err) throw err;
 
-        filenames.filter(it => it.startsWith("_")).forEach(it => compile(it));
+        filenames.filter(it => !it.startsWith("_")).forEach(it => compile(it));
     });
 }
 

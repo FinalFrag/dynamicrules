@@ -70,6 +70,11 @@ module.exports = (config) => {
         process: (input, tempFile) => {
             _tempFile = tempFile;
 
+            // Remove empty lines at the end
+            while (input.length > 0 && input[input.length - 1] === "") {
+                input.pop();
+            }
+
             // Process
             const toBeEvaled = [];
             input.forEach(line => toBeEvaled.push(processLine(line)));

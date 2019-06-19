@@ -1,3 +1,5 @@
-exports.commentString = process.env.COMMENT || "//";
-exports.commandString = process.env.COMMAND || "//>";
-exports.outputString = process.env.OUTPUT || "//!";
+module.exports = {
+    commentString: process.env.COMMENT || "//",
+    commandString: process.env.COMMAND || "//>",
+    outputString: process.env.OUTPUT || "//!"
+};
