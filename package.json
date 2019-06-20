@@ -2,7 +2,11 @@
     "name": "dynamicrules",
     "version": "2.0.0-alpha",
     "description": "OpenHAB dynamic rules",
-    "repository": "github:finalfrag/dynamicrules",
+    "custom": {
+        "author": "finalfrag"
+    },
+    "author": "$npm_package_custom_author",
+    "repository": "github:$npm_package_custom_author/$npm_package_name",
     "license": "MIT",
     "main": "app.js",
     "dependencies": {
@@ -20,8 +24,8 @@
         "start": "node $npm_package_main",
         "test": "mocha test/*",
         "lint": "eslint ./app.js ./app ./test",
-        "docker-build": "docker build . -t finalfrag/$npm_package_name:$npm_package_version",
-        "docker-run": "docker run -v '/Users/massimo.mertens/Sideprojects/dynamicrules/input:/opt/app/input' -v '/Users/massimo.mertens/Sideprojects/dynamicrules/output:/opt/app/output' finalfrag/$npm_package_name:$npm_package_version",
-        "docker-push": "docker push finalfrag/$npm_package_name:$npm_package_version"
+        "docker-build": "docker build . -t $npm_package_custom_author/$npm_package_name:$npm_package_version",
+        "docker-run": "docker run -e COMMAND='>' -e OUTPUT='!' -v '`pwd`/input:/opt/app/input' -v '`pwd`/output:/opt/app/output' $npm_package_custom_author/$npm_package_name:$npm_package_version",
+        "docker-push": "docker push $npm_package_custom_author/$npm_package_name:$npm_package_version"
     }
 }
